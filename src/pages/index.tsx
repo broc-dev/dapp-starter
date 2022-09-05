@@ -1,153 +1,69 @@
-import { FC } from 'react'
+import { FC, useRef, useState, useEffect } from 'react'
 import { APP_NAME } from '@/lib/consts'
 import ConnectWallet from '@/components/ConnectWallet'
-import { BookOpenIcon, CodeIcon, ShareIcon } from '@heroicons/react/outline'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
+import Head from 'next/head';
+import Image from 'next/image';
+import { SpeakerWaveIcon, SpeakerXMarkIcon } from '@heroicons/react/24/outline'
+import { Button, PageNavButton } from '@/components/StyledComponents';
+import MintPanel from '@/components/MintPanel';
+
+import tridentWordmark from '@images/trident-wordmark.svg';
+// @ts-ignore
+import desktopBG from '@images/desktop-bg.apng';
+
+const ToggleAudioBtn = ({ audioPlaying, toggleAudio }) => {
+	return (
+		<div className="fixed right-8 bottom-8 z-50" onClick={toggleAudio}>
+			{audioPlaying ? <SpeakerWaveIcon className="h-6 w-6 text-white" /> : <SpeakerXMarkIcon className="h-6 w-6 text-white" />}
+		</div>
+	)
+}
 
 const Home: FC = () => {
+	const [audioPlaying, setAudioPlaying] = useState(true);
+	const toggleAudio = () => {
+		setAudioPlaying(!audioPlaying);
+	}
+
+	const [ currentPage, setCurrentPage ] = useState(0);
+	const buttonRefs = [useRef(null), useRef(null)];
+
 	return (
-		<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-			<div className="absolute top-6 right-6">
+		<div>
+			{/* PAGE NAVIGATION */}
+			<div className="fixed left-8 top-0 bottom-0 h-screen flex flex-col items-center justify-center z-50">
+				<PageNavButton ref={buttonRefs[0]} onClick={() => setCurrentPage(0)} active={currentPage == 0 ? true : false}></PageNavButton>
+				<PageNavButton ref={buttonRefs[1]} onClick={() => setCurrentPage(1)} active={currentPage == 1 ? true : false}></PageNavButton>
+			</div>
+			{/* Nav Bar */}
+			<div className="sm:fixed absolute top-0 w-full flex sm:flex-row flex-col justify-between items-center px-4 bg-zinc-900 bg-opacity-10 hover:bg-opacity-50 backdrop-blur-lg transition duration-200 z-50">
+				<div className="flex flex-row items-center">
+					<Image src={tridentWordmark} alt="Trident" width={128} height={32} />
+				</div>
+				<div className="sm:absolute top-0 left-0 w-full h-full flex flex-row items-center justify-center">
+					<div className="flex flex-row items-center justify-center text-zinc-200 hover:text-zinc-500">
+						<a className="font-serif text-lg font-medium hover:text-white hover:bg-zinc-900 transition duration-100 px-3 py-2" href="https://trident.game">Home</a>
+						<a className="font-serif text-lg font-medium hover:text-white hover:bg-zinc-900 transition duration-100 px-3 py-2" href="https://twitter.com/TridentDAO">Twitter</a>
+						<a className="font-serif text-lg font-medium hover:text-white hover:bg-zinc-900 transition duration-100 px-3 py-2" href="https://discord.gg/tridentdao">Discord</a>
+					</div>
+				</div>
 				<ConnectWallet />
 			</div>
-			<ThemeSwitcher className="absolute bottom-6 right-6" />
-			<div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
-				<div className="flex justify-center pt-8 sm:justify-start sm:pt-0">
-					<h1 className="text-6xl font-bold dark:text-white">{APP_NAME}</h1>
-				</div>
-
-				<div className="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-					<div className="grid grid-cols-1 md:grid-cols-2">
-						<div className="p-6">
-							<div className="flex items-center">
-								<BookOpenIcon className="w-8 h-8 text-gray-500" />
-								<div className="ml-4 text-lg leading-7 font-semibold">
-									<a
-										href="https://laravel.com/docs"
-										className="underline text-gray-900 dark:text-white"
-									>
-										Next.js Docs
-									</a>
-								</div>
-							</div>
-
-							<div className="ml-12">
-								<div className="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-									Next.js gives you the best developer experience with all the features you need for
-									production: hybrid static &amp; server rendering, TypeScript support, smart
-									bundling, route pre-fetching, and more. No config needed.
-								</div>
-							</div>
-						</div>
-
-						<div className="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-							<div className="flex items-center">
-								<BookOpenIcon className="w-8 h-8 text-gray-500" />
-								<div className="ml-4 text-lg leading-7 font-semibold">
-									<a href="https://wagmi.sh" className="underline text-gray-900 dark:text-white">
-										wagmi Docs
-									</a>
-								</div>
-							</div>
-
-							<div className="ml-12">
-								<div className="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-									wagmi is a collection of React Hooks containing everything you need to start working
-									with Ethereum. wagmi makes it easy to display ENS and balance information, sign
-									messages, interact with contracts, and much more — all with caching, request
-									deduplication, and persistence.
-								</div>
-							</div>
-						</div>
-
-						<div className="p-6 border-t border-gray-200 dark:border-gray-700">
-							<div className="flex items-center">
-								<BookOpenIcon className="w-8 h-8 text-gray-500" />
-								<div className="ml-4 text-lg leading-7 font-semibold">
-									<a
-										href="https://laravel-news.com/"
-										className="underline text-gray-900 dark:text-white"
-									>
-										Tailwind Docs
-									</a>
-								</div>
-							</div>
-
-							<div className="ml-12">
-								<div className="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-									Tailwind CSS is a highly customizable, low-level CSS framework that gives you all of
-									the building blocks you need to build bespoke designs without any annoying
-									opinionated styles you have to fight to override.
-								</div>
-							</div>
-						</div>
-
-						<div className="p-6 border-t border-gray-200 dark:border-gray-700 md:border-l">
-							<div className="flex items-center">
-								<CodeIcon className="w-8 h-8 text-gray-500" />
-								<div className="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">
-									About this Template
-								</div>
-							</div>
-
-							<div className="ml-12">
-								<div className="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-									This starter kit is composed of{' '}
-									<a href="https://nextjs.org" className="underline" target="_blank" rel="noreferrer">
-										Next.js
-									</a>{' '}
-									and{' '}
-									<a
-										href="https://tailwindcss.com"
-										className="underline"
-										target="_blank"
-										rel="noreferrer"
-									>
-										Tailwind CSS
-									</a>
-									, with{' '}
-									<a
-										href="https://docs.family.co/connectkit"
-										className="underline"
-										target="_blank"
-										rel="noreferrer"
-									>
-										ConnectKit
-									</a>
-									,{' '}
-									<a href="https://ethers.org" className="underline" target="_blank" rel="noreferrer">
-										ethers
-									</a>{' '}
-									&amp;{' '}
-									<a href="https://wagmi.sh" className="underline" target="_blank" rel="noreferrer">
-										wagmi
-									</a>{' '}
-									for all your web3 needs. It uses{' '}
-									<a
-										href="https://www.typescriptlang.org/"
-										className="underline"
-										target="_blank"
-										rel="noreferrer"
-									>
-										Typescript
-									</a>{' '}
-									and an opinionated directory structure for maximum dev confy-ness. Enjoy!
-								</div>
-							</div>
-						</div>
+			{/* Toggle Audio Btn */}
+			<ToggleAudioBtn audioPlaying={audioPlaying} toggleAudio={toggleAudio} />
+			<div> {/* PAGE SECTION 1 */}
+				<img className="absolute top-0 left-0 w-full h-full" style={{"objectFit": 'cover'}} src={desktopBG} alt="BG" />
+				<div className="w-screen h-screen flex flex-col items-stretch justify-center bg-gradient-to-br from-zinc-900 to-gray-1">
+					
+					{/* Mint Button Container */}
+					<div className="w-full h-5/6 flex justify-center items-stretch">
+						<MintPanel audioPlaying={audioPlaying} />
 					</div>
 				</div>
+			</div>
+			<div> {/* PAGE SECTION 2 */}
+				<div className="w-screen h-screen flex flex-col items-stretch justify-center bg-murkyblack">
 
-				<div className="flex justify-center mt-4 sm:items-center sm:justify-between">
-					<div className="text-center text-sm text-gray-500 sm:text-left">
-						<div className="flex items-center">
-							<ShareIcon className="-mt-px w-5 h-5 text-gray-400" />
-
-							<a href="https://twitter.com/m1guelpf" className="ml-1 underline">
-								Share
-							</a>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>

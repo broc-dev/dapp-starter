@@ -17,7 +17,10 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/*"],
-			"@images/*": ["public/images/*"]
+			"@images/*": ["public/images/*"],
+			"@fonts/*": ["public/fonts/*"],
+			"@styles/*": ["src/styles/*"],
+			"@audio/*": ["public/audio/*"],
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
