@@ -4,13 +4,14 @@ import ts from 'tailwind-styled-components';
 export const PageNavButton = ts.button`
     w-4
     h-4
-    my-2
+    my-1
     border-2
-    border-gray-2
+    border-transparent
     bg-murkyblack
+    rounded-full
     transition
     duration-200
-    ${props => props.active ? 'border-white' : 'border-gray-2'}
+    ${props => props.active ? 'bg-aqua border-foam border-opacity-20' : 'bg-black'}
 `;
 
 export const Button = ts.button`
