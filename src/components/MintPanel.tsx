@@ -102,7 +102,7 @@ const Information = () => {
     return (
         <div className="w-full h-7 bg-murkyblack bg-opacity-40 backdrop-blur-md flex items-center justify-center">
             <span className="text-zinc-600 text-lg font-pixel">
-                0.01 ETH EACH
+                0.03 ETH EACH
                 {remKrakens && <span>&nbsp;·&nbsp;{remKrakens}/3000</span>}
                 {/* {isSuccess && <span>&nbsp;·&nbsp;{`${(data.decimals > 0) ? data.formatted.substring(0, 5) : 0} ETH`}</span>} */}
                 {balance && <span>&nbsp;·&nbsp;{balance} ETH</span>}

@@ -6,6 +6,24 @@ import { useAccount, useBalance } from 'wagmi';
 import { motion, AnimatePresence } from 'framer-motion';
 import vars from './sections/phaser/vars';
 import { EventManager as events } from './sections/phaser/managers/EventManager';
+import { MODE } from '../lib/consts';
+import {
+    Network,
+    initializeAlchemy,
+    getNftsForOwner,
+    getNftMetadata,
+    BaseNft,
+    NftTokenType,
+  } from "@alch/alchemy-sdk";
+
+const alchemySettings = {
+    apiKey: process.env.ALCHEMY_ID,
+    // @ts-ignore
+    network: (MODE === 'prod') ? Network.ETH_MAINNET : Network.ETH_GOERLI,
+    maxRetries: 10,
+}
+
+const alchemy = initializeAlchemy(alchemySettings);
 
 const SelectKraken = dynamic(
     () => import('./sections/phaser/SelectKraken'),
@@ -29,7 +47,7 @@ const KrakenViewer = () => {
     let krakenComponents = krakenIDs.map((krakenID, i) => {
         const classes = `border-2 mt-3 mr-3 rounded-sm ${vars.chosenKrakenID === krakenID ? 'border-zinc-200 bg-zinc-800' : 'border-transparent'}`;
         return (
-            <div className={classes} onClick={() => setSelectedKrakenID(krakenID)}><Kraken key={i} id={krakenID} /></div>
+            <div key={i} className={classes} onClick={() => setSelectedKrakenID(krakenID)}><Kraken key={i} id={krakenID} /></div>
         )
     });
     // Should load a users krakens and map them as children
@@ -46,7 +64,7 @@ const KrakenViewer = () => {
                     <SelectKraken id={selKrakenID} />
                     <a className="block shadow-md w-auto bg-zinc-800 px-3 py-1 rounded-sm hover:bg-zinc-600 font-mono text-zinc-400 hover:text-white text-center mr-2" href="https://sudoswap.xyz">SudoSwap</a>
                 </div>
-                {selKrakenID && <span className="text-md text-zinc-600 font-mono">Selected Kraken <span className="text-zinc-200">{selKrakenID}</span></span>}
+                {/* {selKrakenID && <span className="text-md text-zinc-600 font-mono">Selected Kraken <span className="text-zinc-200">{selKrakenID}</span></span>} */}
             </div>
         </div>
     )   

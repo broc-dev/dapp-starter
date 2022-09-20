@@ -59,7 +59,7 @@ const Info = () => {
                     <Image layout='responsive' src={krakenGif} />
                     <div className="absolute md:top-8 md:left-8 top-4 left-4">
                         <InfoText>3000 Krakens</InfoText>
-                        <InfoText>0.01 ETH Each</InfoText>
+                        <InfoText>0.03 ETH Each</InfoText>
                         <InfoText>YOUR INGAME COMPANION</InfoText>
                     </div>
                 </div>
